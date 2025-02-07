@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <title>صفحات القرآن الكريم</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            text-align: center;
+            margin-top: 50px;
+        }
+        img {
+            width: 500px;
+        }
+        .pagination {
+            margin-top: 20px;
+        }
+        #loginForm, #pageContainer {
+            display: none;
+        }
+    </style>
+    <meta charset="utf-8">
+</head>
+<body>
+    <h1>صفحات القرآن الكريم</h1>
+    
+    <div id="loginForm">
+        <input type="email" id="emailInput" placeholder="أدخل بريدك الإلكتروني" required>
+        <input type="text" id="codeInput" placeholder="أدخل الرمز" required>
+        <button onclick="login()">تسجيل الدخول</button>
+    </div>
+    
+    <div id="pageContainer">
+        <input type="number" id="pageInput" placeholder="أدخل رقم الصفحة">
+        <button onclick="navigateToPage()">انتقل</button>
+        <div id="pageContent"></div>
+    </div>
+
+    <script type="text/javascript">
+        var currentPage = 1;
+
+        document.getElementById('loginForm').style.display = 'block';
+
+        function login() {
+            var email = document.getElementById('emailInput').value;
+            var code = document.getElementById('codeInput').value;
+
+            // التحقق من البريد الإلكتروني والرمز
+            if (email === "wwwwwwahmedhassen@gmail.com" && code === "1234") {
+                document.getElementById('loginForm').style.display = 'none';
+                document.getElementById('pageContainer').style.display = 'block';
+                loadPage();
+            } else {
+                alert('البريد الإلكتروني أو الرمز غير صحيح! يرجى المحاولة مرة أخرى.');
+            }
+        }
+
+        function navigateToPage() {
+            var pageInput = document.getElementById('pageInput');
+            var page = parseInt(pageInput.value);
+            if (isNaN(page) || page < 1 || page > 604) {
+                alert('رقم الصفحة غير صحيح! يرجى إدخال رقم صفحة صحيح من 1 إلى 604.');
+                return;
+            }
+            currentPage = page;
+            loadPage();
+        }
+
+        function loadPage() {
+            var pageContent = document.getElementById('pageContent');
+            var imageUrl = "https://quran.ksu.edu.sa/png_big/" + currentPage + ".png";
+            var image = '<img src="' + imageUrl + '" alt="صفحة القرآن الكريم">';
+
+            pageContent.innerHTML = image;
+            var pagination = '<div class="pagination">' +
+                (currentPage > 1 ? '<button onclick="loadPreviousPage()">الصفحة السابقة</button>' : '') +
+                (currentPage < 604 ? '<button onclick="loadNextPage()">الصفحة التالية</button>' : '') +
+                '</div>';
+
+            pageContent.innerHTML += pagination;
+        }
+
+        function loadPreviousPage() {
+            if (currentPage > 1) {
+                currentPage--;
+                loadPage();
+            }
+        }
+
+        function loadNextPage() {
+            if (currentPage < 604) {
+                currentPage++;
+                loadPage();
+            }
+        }
+    </script>
+</body>
+</html>
